@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:MAUI_Test.Components"
+             xmlns:drawables="clr-namespace:MAUI_Test.Drawables"
+             xmlns:viewmodels="clr-namespace:MAUI_Test.ViewModels"
+             xmlns:models="clr-namespace:MAUI_Test.Models"
+             x:Class="MAUI_Test.MainPage"
+             BackgroundColor="{StaticResource DashboardBg}"
+             Title="Dashboard">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <drawables:LineChartDrawable x:Key="MainLineChart"/>
+            <drawables:DoughnutChartDrawable x:Key="TrafficDoughnutChart"/>
+            
+            <drawables:MiniChartDrawable x:Key="MiniBlueBars" ChartType="BlueBars"/>
+            <drawables:MiniChartDrawable x:Key="MiniYellowArea" ChartType="YellowArea"/>
+            <drawables:MiniChartDrawable x:Key="MiniRedLine" ChartType="RedLine"/>
+            <drawables:MiniChartDrawable x:Key="MiniPurpleBars" ChartType="PurpleBars"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid ColumnDefinitions="Auto, *">
+        <!-- Sidebar Navigation (240px wide) -->
+        <components:SidebarView Grid.Column="0" VerticalOptions="Fill"/>
+
+        <!-- Main Workspace (Light Background) -->
+        <ScrollView Grid.Column="1" HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Default">
+            <VerticalStackLayout Padding="25" Spacing="25">
+                
+                <!-- Row 1: Line Chart & Traffic Doughnut -->
+                <Grid ColumnDefinitions="2*, *" ColumnSpacing="20">
+                    
+                    <!-- Line Chart Card (2/3 width) -->
+                    <components:CardView Grid.Column="0">
+                        <Grid RowDefinitions="Auto, *" ColumnDefinitions="150, *" Padding="5">
+                            
+                            <!-- Header (Title, Subtitle, Tabs, Legend) -->
+                            <components:HeaderView Grid.Row="0" Grid.ColumnSpan="2" 
+                                                   Title="Dashboard" 
+                                                   Subtitle="Overview of Latest Month" 
+                                                   ShowTabs="True" 
+                                                   ShowLegend="True"/>
+                            
+                            <!-- Left: Earnings and Sales Metrics -->
+                            <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="20" Margin="0,15,0,0">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding Earnings}" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}"/>
+                                    <Label Text="Current Month Earnings" FontSize="11" TextColor="{StaticResource TextSecondary}"/>
+                                </VerticalStackLayout>
+                                
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding SalesCount}" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}"/>
+                                    <Label Text="Current Month Sales" FontSize="11" TextColor="{StaticResource TextSecondary}"/>
+                                </VerticalStackLayout>
+                                
+                                <Border BackgroundColor="{StaticResource AccentOrange}" 
+                                        StrokeThickness="0" 
+                                        Padding="15,10" 
+                                        HorizontalOptions="Start" 
+                                        HeightRequest="38" 
+                                        StrokeShape="RoundRectangle 6">
+                                    <Label Text="Last Month Summary" TextColor="White" FontSize="11" FontAttributes="Bold" VerticalOptions="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+                            
+                            <GraphicsView Grid.Row="1" Grid.Column="1" 
+                                          Drawable="{StaticResource MainLineChart}" 
+                                          HeightRequest="220" 
+                                          VerticalOptions="Fill" 
+                                          HorizontalOptions="Fill"/>
+                        </Grid>
+                    </components:CardView>
+
+                    <!-- Traffic Doughnut Card (1/3 width) -->
+                    <components:CardView Grid.Column="1">
+                        <Grid RowDefinitions="Auto, *, Auto" Padding="5" RowSpacing="10">
+                            <!-- Header -->
+                            <Label Grid.Row="0" Text="Traffic" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}"/>
+                            
+                            <!-- Doughnut Graphic -->
+                            <GraphicsView Grid.Row="1" 
+                                          Drawable="{StaticResource TrafficDoughnutChart}" 
+                                          HeightRequest="150" 
+                                          WidthRequest="150"
+                                          HorizontalOptions="Center" 
+                                          VerticalOptions="Center"/>
+                            
+                            <!-- Legend and Stats -->
+                            <Grid Grid.Row="2" ColumnDefinitions="*, *, *" ColumnSpacing="5">
+                                <!-- Facebook -->
+                                <VerticalStackLayout Grid.Column="0" Spacing="4" HorizontalOptions="Center">
+                                    <HorizontalStackLayout Spacing="4" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Ellipse WidthRequest="6" HeightRequest="6" Fill="#3B82F6"/>
+                                        <Label Text="Facebook" FontSize="9" TextColor="{StaticResource TextSecondary}"/>
+                                    </HorizontalStackLayout>
+                                    <Label Text="34%" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" HorizontalTextAlignment="Center"/>
+                                </VerticalStackLayout>
+                                
+                                <!-- Youtube -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="Center">
+                                    <HorizontalStackLayout Spacing="4" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Ellipse WidthRequest="6" HeightRequest="6" Fill="#F97316"/>
+                                        <Label Text="Youtube" FontSize="9" TextColor="{StaticResource TextSecondary}"/>
+                                    </HorizontalStackLayout>
+                                    <Label Text="55%" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" HorizontalTextAlignment="Center"/>
+                                </VerticalStackLayout>
+                                
+                                <!-- Direct -->
+                                <VerticalStackLayout Grid.Column="2" Spacing="4" HorizontalOptions="Center">
+                                    <HorizontalStackLayout Spacing="4" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Ellipse WidthRequest="6" HeightRequest="6" Fill="#EAB308"/>
+                                        <Label Text="Direct" FontSize="9" TextColor="{StaticResource TextSecondary}"/>
+                                    </HorizontalStackLayout>
+                                    <Label Text="11%" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" HorizontalTextAlignment="Center"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Grid>
+                    </components:CardView>
+                </Grid>
+                
+                <!-- Row 2: KPI Badges (4 Columns) -->
+                <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="20">
+                    <!-- KPI 1: Wallet Balance -->
+                    <components:CardView Grid.Column="0" BindingContext="{Binding Kpis[0]}" CardPadding="15">
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="15">
+                            <Border Grid.Column="0" 
+                                    WidthRequest="40" 
+                                    HeightRequest="40" 
+                                    StrokeThickness="0" 
+                                    BackgroundColor="{Binding IconBgColor}" 
+                                    StrokeShape="RoundRectangle 20"
+                                    HorizontalOptions="Center" 
+                                    VerticalOptions="Center">
+                                <Path Data="{Binding IconData}" Fill="{Binding IconColor}" HeightRequest="18" WidthRequest="18" Aspect="Uniform" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Text="{Binding Title}" FontSize="10" TextColor="{StaticResource TextSecondary}"/>
+                                <Label Text="{Binding Value}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </components:CardView>
+
+                    <!-- KPI 2: Referral Earning -->
+                    <components:CardView Grid.Column="1" BindingContext="{Binding Kpis[1]}" CardPadding="15">
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="15">
+                            <Border Grid.Column="0" 
+                                    WidthRequest="40" 
+                                    HeightRequest="40" 
+                                    StrokeThickness="0" 
+                                    BackgroundColor="{Binding IconBgColor}" 
+                                    StrokeShape="RoundRectangle 20"
+                                    HorizontalOptions="Center" 
+                                    VerticalOptions="Center">
+                                <Path Data="{Binding IconData}" Fill="{Binding IconColor}" HeightRequest="18" WidthRequest="18" Aspect="Uniform" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Text="{Binding Title}" FontSize="10" TextColor="{StaticResource TextSecondary}"/>
+                                <Label Text="{Binding Value}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </components:CardView>
+
+                    <!-- KPI 3: Estimate Sales -->
+                    <components:CardView Grid.Column="2" BindingContext="{Binding Kpis[2]}" CardPadding="15">
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="15">
+                            <Border Grid.Column="0" 
+                                    WidthRequest="40" 
+                                    HeightRequest="40" 
+                                    StrokeThickness="0" 
+                                    BackgroundColor="{Binding IconBgColor}" 
+                                    StrokeShape="RoundRectangle 20"
+                                    HorizontalOptions="Center" 
+                                    VerticalOptions="Center">
+                                <Path Data="{Binding IconData}" Fill="{Binding IconColor}" HeightRequest="18" WidthRequest="18" Aspect="Uniform" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Text="{Binding Title}" FontSize="10" TextColor="{StaticResource TextSecondary}"/>
+                                <Label Text="{Binding Value}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </components:CardView>
+
+                    <!-- KPI 4: Earning -->
+                    <components:CardView Grid.Column="3" BindingContext="{Binding Kpis[3]}" CardPadding="15">
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="15">
+                            <Border Grid.Column="0" 
+                                    WidthRequest="40" 
+                                    HeightRequest="40" 
+                                    StrokeThickness="0" 
+                                    BackgroundColor="{Binding IconBgColor}" 
+                                    StrokeShape="RoundRectangle 20"
+                                    HorizontalOptions="Center" 
+                                    VerticalOptions="Center">
+                                <Path Data="{Binding IconData}" Fill="{Binding IconColor}" HeightRequest="18" WidthRequest="18" Aspect="Uniform" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Text="{Binding Title}" FontSize="10" TextColor="{StaticResource TextSecondary}"/>
+                                <Label Text="{Binding Value}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </components:CardView>
+                </Grid>
+                
+                <!-- Row 3: Mini-Chart Cards (4 Columns) -->
+                <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="20">
+                    
+                    <!-- Card 1: Revenue Status (Blue) -->
+                    <components:CardView Grid.Column="0" CardBackgroundColor="{StaticResource MiniCardBlueBg}" CardBorderColor="Transparent" CardPadding="15">
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10">
+                            <GraphicsView Grid.Column="0" Drawable="{StaticResource MiniBlueBars}" WidthRequest="70" HeightRequest="45" VerticalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="1">
+                                <Label Text="Revenue Status" FontSize="10" TextColor="{StaticResource TextSecondary}"/>
+                                <Label Text="↑ $432" FontSize="16" FontAttributes="Bold" TextColor="#3B82F6"/>
+                                <Label Text="Jan 01 - Jan 10" FontSize="8" TextColor="{StaticResource TextSecondary}"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </components:CardView>
+
+                    <!-- Card 2: Page View (Yellow) -->
+                    <components:CardView Grid.Column="1" CardBackgroundColor="{StaticResource MiniCardYellowBg}" CardBorderColor="Transparent" CardPadding="15">
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10">
+                            <GraphicsView Grid.Column="0" Drawable="{StaticResource MiniYellowArea}" WidthRequest="70" HeightRequest="45" VerticalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Page View" FontSize="10" TextColor="{StaticResource TextSecondary}"/>
+                                <Label Text="↑ $432" FontSize="16" FontAttributes="Bold" TextColor="#D97706"/>
+                                <Label Text="Overview" FontSize="8" TextColor="{StaticResource TextSecondary}"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </components:CardView>
+
+                    <!-- Card 3: Bounce Rate (Orange) -->
+                    <components:CardView Grid.Column="2" CardBackgroundColor="{StaticResource MiniCardOrangeBg}" CardBorderColor="Transparent" CardPadding="15">
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10">
+                            <VerticalStackLayout Grid.Column="0" Spacing="3" VerticalOptions="Center">
+                                <!-- Mini dropdown button -->
+                                <Border StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White" Padding="6,2" HeightRequest="18" HorizontalOptions="Start" StrokeShape="RoundRectangle 4">
+                                    <HorizontalStackLayout Spacing="4">
+                                        <Label Text="Monthly" FontSize="7" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center"/>
+                                        <Path Data="M7 10l5 5 5-5z" Fill="{StaticResource TextSecondary}" HeightRequest="5" WidthRequest="5" Aspect="Uniform" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                <GraphicsView Drawable="{StaticResource MiniRedLine}" WidthRequest="70" HeightRequest="25"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Bounce Rate" FontSize="10" TextColor="{StaticResource TextSecondary}"/>
+                                <Label Text="↑ $432" FontSize="16" FontAttributes="Bold" TextColor="#EF4444"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </components:CardView>
+
+                    <!-- Card 4: Revenue Status (Purple) -->
+                    <components:CardView Grid.Column="3" CardBackgroundColor="{StaticResource MiniCardPurpleBg}" CardBorderColor="Transparent" CardPadding="15">
+                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10">
+                            <GraphicsView Grid.Column="0" Drawable="{StaticResource MiniPurpleBars}" WidthRequest="70" HeightRequest="45" VerticalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="1">
+                                <Label Text="Revenue Status" FontSize="10" TextColor="{StaticResource TextSecondary}"/>
+                                <Label Text="↑ $432" FontSize="16" FontAttributes="Bold" TextColor="#8B5CF6"/>
+                                <Label Text="Jan 01 - Jan 10" FontSize="8" TextColor="{StaticResource TextSecondary}"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </components:CardView>
+                </Grid>
+                
+                <!-- Row 4: Recent Activities & Order Status -->
+                <Grid ColumnDefinitions="*, 2*" ColumnSpacing="20">
+                    
+                    <!-- Recent Activities Card (1/3 width) -->
+                    <components:CardView Grid.Column="0">
+                        <Grid RowDefinitions="Auto, *" Padding="5">
+                            <!-- Background decorative purple circle -->
+                            <Ellipse Grid.Row="0" WidthRequest="24" HeightRequest="24" Fill="#F3E8FF" HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,10,0"/>
+
+                            <Label Grid.Row="0" Text="Recent Activities" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" Margin="5,0,0,15"/>
+                            
+                            <!-- Timeline List -->
+                            <VerticalStackLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Activities}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="models:ActivityItem">
+                                        <components:ListItemView Time="{Binding Time}" 
+                                                                 ItemTitle="{Binding Title}" 
+                                                                 ItemDescription="{Binding Description}" 
+                                                                 IconData="{Binding IconData}" 
+                                                                 IconColor="{Binding IconColor}" 
+                                                                 IconBgColor="{Binding IconBgColor}" 
+                                                                 ShowLine="{Binding ShowLine}"/>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </components:CardView>
+
+                    <!-- Order Status Card (2/3 width) -->
+                    <components:CardView Grid.Column="1">
+                        <Grid RowDefinitions="Auto, Auto, Auto, *, Auto" Padding="5">
+                            <!-- Header -->
+                            <components:HeaderView Grid.Row="0" Title="Order Status" Subtitle="Overview of Latest Month"/>
+                            
+                            <!-- Action Bar -->
+                            <Grid Grid.Row="1" ColumnDefinitions="Auto, *" Padding="5,0,5,15">
+                                <!-- Left actions: Add, info, trash, edit -->
+                                <HorizontalStackLayout Grid.Column="0" Spacing="8">
+                                    <!-- Add button -->
+                                    <Border BackgroundColor="{StaticResource AccentOrange}" StrokeThickness="0" Padding="12,6" HeightRequest="30" StrokeShape="RoundRectangle 5">
+                                        <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
+                                            <Path Data="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" Fill="White" HeightRequest="10" WidthRequest="10" Aspect="Uniform"/>
+                                            <Label Text="Add" TextColor="White" FontSize="10" FontAttributes="Bold"/>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                    <!-- Info, delete, refresh buttons -->
+                                    <Border WidthRequest="30" HeightRequest="30" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White" StrokeShape="RoundRectangle 5">
+                                        <Path Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" Fill="{StaticResource TextSecondary}" HeightRequest="12" WidthRequest="12" Aspect="Uniform" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <Border WidthRequest="30" HeightRequest="30" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White" StrokeShape="RoundRectangle 5">
+                                        <Path Data="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" Fill="{StaticResource TextSecondary}" HeightRequest="12" WidthRequest="12" Aspect="Uniform" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <Border WidthRequest="30" HeightRequest="30" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White" StrokeShape="RoundRectangle 5">
+                                        <Path Data="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" Fill="{StaticResource TextSecondary}" HeightRequest="12" WidthRequest="12" Aspect="Uniform" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                </HorizontalStackLayout>
+                                
+                                <!-- Right action: Search bar -->
+                                <Border Grid.Column="1" HorizontalOptions="End" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="#F8FAFC" WidthRequest="180" HeightRequest="30" StrokeShape="RoundRectangle 5" Padding="10,0">
+                                    <Grid ColumnDefinitions="Auto, *">
+                                        <Path Grid.Column="0" Data="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" Fill="{StaticResource TextSecondary}" HeightRequest="12" WidthRequest="12" Aspect="Uniform" VerticalOptions="Center" Margin="0,0,5,0"/>
+                                        <Label Grid.Column="1" Text="Search" FontSize="10" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <!-- Table Header -->
+                            <Grid Grid.Row="2" ColumnDefinitions="*, 1.5*, *, *, *" Padding="15,10" BackgroundColor="#F8FAFC">
+                                <Label Grid.Column="0" Text="INVOICE" FontSize="10" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}"/>
+                                <Label Grid.Column="1" Text="CUSTOMERS" FontSize="10" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}"/>
+                                <Label Grid.Column="2" Text="FROM" FontSize="10" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}"/>
+                                <Label Grid.Column="3" Text="PRICE" FontSize="10" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}"/>
+                                <Label Grid.Column="4" Text="STATUS" FontSize="10" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}"/>
+                            </Grid>
+                            
+                            <!-- Table Rows -->
+                            <VerticalStackLayout Grid.Row="3" BindableLayout.ItemsSource="{Binding Orders}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="models:OrderItem">
+                                        <VerticalStackLayout>
+                                            <Grid ColumnDefinitions="*, 1.5*, *, *, *" Padding="15,12">
+                                                <Label Grid.Column="0" Text="{Binding Invoice}" FontSize="12" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center"/>
+                                                <Label Grid.Column="1" Text="{Binding Customer}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" VerticalOptions="Center"/>
+                                                <Label Grid.Column="2" Text="{Binding From}" FontSize="12" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center"/>
+                                                <Label Grid.Column="3" Text="{Binding Price}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" VerticalOptions="Center"/>
+                                                
+                                                <!-- Status Badge -->
+                                                <Border Grid.Column="4" 
+                                                        BackgroundColor="{Binding StatusBg}" 
+                                                        StrokeThickness="0" 
+                                                        Padding="10,4" 
+                                                        HorizontalOptions="Start" 
+                                                        VerticalOptions="Center" 
+                                                        StrokeShape="RoundRectangle 4">
+                                                    <Label Text="{Binding Status}" 
+                                                           TextColor="{Binding StatusColor}" 
+                                                           FontSize="9" 
+                                                           FontAttributes="Bold" 
+                                                           HorizontalOptions="Center" 
+                                                           VerticalOptions="Center"/>
+                                                </Border>
+                                            </Grid>
+                                            <BoxView HeightRequest="1" Color="#F1F5F9" Margin="15,0"/>
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
+                            
+                            <!-- Table Footer (Pagination) -->
+                            <Grid Grid.Row="4" ColumnDefinitions="*, Auto" Padding="15,15,15,5">
+                                <Label Grid.Column="0" Text="Showing 1 to 20 of 20 entries" FontSize="11" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center"/>
+                                
+                                <HorizontalStackLayout Grid.Column="1" Spacing="4">
+                                    <!-- Left arrow -->
+                                    <Border WidthRequest="24" HeightRequest="24" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White" StrokeShape="RoundRectangle 4">
+                                        <Label Text="&lt;" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <!-- Numbers -->
+                                    <Border WidthRequest="24" HeightRequest="24" StrokeThickness="0" BackgroundColor="#DBEAFE" StrokeShape="RoundRectangle 4">
+                                        <Label Text="1" FontSize="10" TextColor="#1E3A8A" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <Border WidthRequest="24" HeightRequest="24" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White" StrokeShape="RoundRectangle 4">
+                                        <Label Text="2" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <Border WidthRequest="24" HeightRequest="24" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White" StrokeShape="RoundRectangle 4">
+                                        <Label Text="3" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <Border WidthRequest="24" HeightRequest="24" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White" StrokeShape="RoundRectangle 4">
+                                        <Label Text="4" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <Border WidthRequest="24" HeightRequest="24" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White" StrokeShape="RoundRectangle 4">
+                                        <Label Text="5" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <Border WidthRequest="24" HeightRequest="24" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White" StrokeShape="RoundRectangle 4">
+                                        <Label Text="6" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <!-- Right arrow -->
+                                    <Border WidthRequest="24" HeightRequest="24" StrokeThickness="1" Stroke="#E2E8F0" BackgroundColor="White" StrokeShape="RoundRectangle 4">
+                                        <Label Text="&gt;" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Grid>
+                    </components:CardView>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

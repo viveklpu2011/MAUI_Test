@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MAUI_Test.ViewModels"
+             x:Class="MAUI_Test.Components.SidebarView">
+    
+    <Grid BackgroundColor="{StaticResource SidebarBg}" RowDefinitions="Auto, *" WidthRequest="240">
+        <!-- Logo Header -->
+        <HorizontalStackLayout Grid.Row="0" Padding="20,25" Spacing="10" VerticalOptions="Center">
+            <!-- Simple Crown/Logo shape -->
+            <Path Data="M12 2L2 22h20L12 2zm0 3.99L18.8 19H5.2L12 5.99z" Fill="White" HeightRequest="22" WidthRequest="22" Aspect="Uniform"/>
+            <Label Text="DASHBOARD" TextColor="White" FontSize="18" FontAttributes="Bold" CharacterSpacing="1.5" VerticalOptions="Center"/>
+        </HorizontalStackLayout>
+
+        <!-- Navigation Menu -->
+        <ScrollView Grid.Row="1" Margin="0,0,0,10">
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding SidebarItems}" Padding="10,0">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="viewmodels:SidebarItem">
+                        <Border Margin="5,2" Padding="12,10" StrokeThickness="0" StrokeShape="RoundRectangle 8">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding IsActive}" Value="True">
+                                            <Setter Property="BackgroundColor" Value="{StaticResource SidebarActiveBg}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            
+                            <Grid ColumnDefinitions="30, *">
+                                <Path Grid.Column="0" Data="{Binding IconData}" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="16" WidthRequest="16" Aspect="Uniform">
+                                    <Path.Style>
+                                        <Style TargetType="Path">
+                                            <Setter Property="Fill" Value="{StaticResource SidebarTextColor}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Path" Binding="{Binding IsActive}" Value="True">
+                                                    <Setter Property="Fill" Value="{StaticResource SidebarActiveTextColor}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Path.Style>
+                                </Path>
+                                
+                                <Label Grid.Column="1" Text="{Binding Title}" VerticalOptions="Center" Margin="10,0,0,0" FontSize="13" CharacterSpacing="0.5">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="TextColor" Value="{StaticResource SidebarTextColor}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsActive}" Value="True">
+                                                    <Setter Property="TextColor" Value="{StaticResource SidebarActiveTextColor}"/>
+                                                    <Setter Property="FontAttributes" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentView>
