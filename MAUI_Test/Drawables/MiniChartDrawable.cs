@@ -57,7 +57,6 @@ namespace MAUI_Test.Drawables
                 float x = i * (barWidth + spacing);
                 float y = h - barH;
                 
-                // Draw rounded rectangle for the bar
                 canvas.FillRoundedRectangle(x, y, barWidth, barH, 2f);
             }
         }
@@ -87,11 +86,9 @@ namespace MAUI_Test.Drawables
             fillPath.LineTo(w, h);
             fillPath.Close();
 
-            // Fill area
             canvas.FillColor = fillColor;
             canvas.FillPath(fillPath);
 
-            // Draw line stroke
             canvas.StrokeColor = strokeColor;
             canvas.StrokeSize = 2f;
             canvas.StrokeLineJoin = LineJoin.Round;

@@ -1,6 +1,3 @@
-using Microsoft.Maui.Graphics;
-using System.Collections.Generic;
-
 namespace MAUI_Test.Drawables
 {
     public class LineChartDrawable : IDrawable
@@ -22,26 +19,22 @@ namespace MAUI_Test.Drawables
 
             float maxValue = 35f;
 
-            // 1. Draw Grid Lines and Y-Axis Labels
             canvas.StrokeColor = Color.FromArgb("#E2E8F0");
             canvas.StrokeSize = 1f;
             canvas.FontColor = Color.FromArgb("#94A3B8");
             canvas.FontSize = 10f;
 
-            int gridSteps = 7; // 0, 5, 10, 15, 20, 25, 30, 35
+            int gridSteps = 7;
             for (int i = 0; i <= gridSteps; i++)
             {
                 float gridVal = i * 5f;
                 float y = topMargin + plotHeight - (gridVal / maxValue) * plotHeight;
                 
-                // Grid line
                 canvas.DrawLine(leftMargin, y, leftMargin + plotWidth, y);
 
-                // Y-label
                 canvas.DrawString(gridVal.ToString(), 5f, y + 4f, HorizontalAlignment.Left);
             }
 
-            // 2. Draw X-Axis Labels
             int xCount = BlueData.Count;
             float xStep = plotWidth / (xCount - 1);
             for (int i = 0; i < xCount; i++)
@@ -50,10 +43,8 @@ namespace MAUI_Test.Drawables
                 canvas.DrawString((i + 1).ToString(), x, topMargin + plotHeight + 18f, HorizontalAlignment.Center);
             }
 
-            // 3. Draw Blue Series (Sales/Earnings)
             DrawSeries(canvas, BlueData, leftMargin, topMargin, plotWidth, plotHeight, maxValue, xStep, Color.FromArgb("#3B82F6"), Color.FromArgb("#103B82F6"), Color.FromArgb("#003B82F6"));
 
-            // 4. Draw Orange Series (Store)
             DrawSeries(canvas, OrangeData, leftMargin, topMargin, plotWidth, plotHeight, maxValue, xStep, Color.FromArgb("#F97316"), Color.FromArgb("#10F97316"), Color.FromArgb("#00F97316"));
         }
 
@@ -62,7 +53,6 @@ namespace MAUI_Test.Drawables
             int count = data.Count;
             if (count < 2) return;
 
-            // Generate path for the line
             PathF path = new PathF();
             PathF fillPath = new PathF();
 
@@ -70,11 +60,10 @@ namespace MAUI_Test.Drawables
             float firstY = top + height - (data[0] / maxVal) * height;
             path.MoveTo(firstX, firstY);
             
-            fillPath.MoveTo(left, top + height); // bottom-left corner of plot area
+            fillPath.MoveTo(left, top + height);
             fillPath.LineTo(firstX, firstY);
 
-            // Draw smooth curve using cubic beziers or line segments with rounded joins
-            // Using line segments with rounded joins is extremely clean and stable
+
             for (int i = 1; i < count; i++)
             {
                 float x = left + i * xStep;
@@ -86,7 +75,6 @@ namespace MAUI_Test.Drawables
             fillPath.LineTo(left + (count - 1) * xStep, top + height); // bottom-right corner
             fillPath.Close();
 
-            // Draw Fill Gradient
             var gradient = new LinearGradientPaint
             {
                 StartPoint = new Point(0, 0),
@@ -100,20 +88,17 @@ namespace MAUI_Test.Drawables
             canvas.SetFillPaint(gradient, new RectF(left, top, width, height));
             canvas.FillPath(fillPath);
 
-            // Draw Stroke Line
             canvas.StrokeColor = strokeColor;
             canvas.StrokeSize = 2.5f;
             canvas.StrokeLineJoin = LineJoin.Round;
             canvas.StrokeLineCap = LineCap.Round;
             canvas.DrawPath(path);
 
-            // Draw Data Point Markers (Dots)
             for (int i = 0; i < count; i++)
             {
                 float x = left + i * xStep;
                 float y = top + height - (data[i] / maxVal) * height;
 
-                // Inner white circle, outer colored border
                 canvas.FillColor = Colors.White;
                 canvas.FillCircle(x, y, 4.5f);
 

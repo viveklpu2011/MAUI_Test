@@ -1,44 +1,73 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MAUI_Test.Components.HeaderView"
-             x:Name="thisHeader">
+<ContentView
+    x:Class="MAUI_Test.Components.HeaderView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="thisHeader">
 
-    <Grid ColumnDefinitions="*, Auto" Padding="5,0,5,15">
-        <!-- Title & Subtitle -->
+    <Grid Padding="5,0,5,15" ColumnDefinitions="*, Auto">
         <VerticalStackLayout Grid.Column="0" Spacing="2">
-            <Label Text="{Binding Title, Source={x:Reference thisHeader}}" 
-                   TextColor="{StaticResource TextPrimary}" 
-                   FontSize="16" 
-                   FontAttributes="Bold"/>
-            <Label Text="{Binding Subtitle, Source={x:Reference thisHeader}}" 
-                   TextColor="{StaticResource TextSecondary}" 
-                   FontSize="11"/>
+            <Label
+                FontAttributes="Bold"
+                FontSize="16"
+                Text="{Binding Title, Source={x:Reference thisHeader}}"
+                TextColor="{StaticResource TextPrimary}" />
+            <Label
+                FontSize="11"
+                Text="{Binding Subtitle, Source={x:Reference thisHeader}}"
+                TextColor="{StaticResource TextSecondary}" />
         </VerticalStackLayout>
 
-        <!-- Right Side: Tabs or Legend -->
-        <HorizontalStackLayout Grid.Column="1" Spacing="20" VerticalOptions="Center">
-            <!-- DAILY WEEKLY MONTHLY YEARLY Tabs -->
-            <HorizontalStackLayout Spacing="15" 
-                                   IsVisible="{Binding ShowTabs, Source={x:Reference thisHeader}}" 
-                                   VerticalOptions="Center">
-                <Label Text="DAILY" TextColor="{StaticResource AccentOrange}" FontSize="11" FontAttributes="Bold"/>
-                <Label Text="WEEKLY" TextColor="{StaticResource TextSecondary}" FontSize="11"/>
-                <Label Text="MONTHLY" TextColor="{StaticResource TextSecondary}" FontSize="11"/>
-                <Label Text="YEARLY" TextColor="{StaticResource TextSecondary}" FontSize="11"/>
+        <HorizontalStackLayout
+            Grid.Column="1"
+            Spacing="20"
+            VerticalOptions="Center">
+            <HorizontalStackLayout
+                IsVisible="{Binding ShowTabs, Source={x:Reference thisHeader}}"
+                Spacing="15"
+                VerticalOptions="Center">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="11"
+                    Text="DAILY"
+                    TextColor="{StaticResource AccentOrange}" />
+                <Label
+                    FontSize="11"
+                    Text="WEEKLY"
+                    TextColor="{StaticResource TextSecondary}" />
+                <Label
+                    FontSize="11"
+                    Text="MONTHLY"
+                    TextColor="{StaticResource TextSecondary}" />
+                <Label
+                    FontSize="11"
+                    Text="YEARLY"
+                    TextColor="{StaticResource TextSecondary}" />
             </HorizontalStackLayout>
 
-            <!-- Legend (Online/Store) -->
-            <HorizontalStackLayout Spacing="15" 
-                                   IsVisible="{Binding ShowLegend, Source={x:Reference thisHeader}}" 
-                                   VerticalOptions="Center">
+            <HorizontalStackLayout
+                IsVisible="{Binding ShowLegend, Source={x:Reference thisHeader}}"
+                Spacing="15"
+                VerticalOptions="Center">
                 <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
-                    <Ellipse WidthRequest="8" HeightRequest="8" Fill="#3B82F6"/>
-                    <Label Text="Online" TextColor="{StaticResource TextSecondary}" FontSize="11"/>
+                    <Ellipse
+                        Fill="#3B82F6"
+                        HeightRequest="8"
+                        WidthRequest="8" />
+                    <Label
+                        FontSize="11"
+                        Text="Online"
+                        TextColor="{StaticResource TextSecondary}" />
                 </HorizontalStackLayout>
                 <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
-                    <Ellipse WidthRequest="8" HeightRequest="8" Fill="#F97316"/>
-                    <Label Text="Store" TextColor="{StaticResource TextSecondary}" FontSize="11"/>
+                    <Ellipse
+                        Fill="#F97316"
+                        HeightRequest="8"
+                        WidthRequest="8" />
+                    <Label
+                        FontSize="11"
+                        Text="Store"
+                        TextColor="{StaticResource TextSecondary}" />
                 </HorizontalStackLayout>
             </HorizontalStackLayout>
         </HorizontalStackLayout>

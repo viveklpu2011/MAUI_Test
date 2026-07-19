@@ -8,7 +8,7 @@ namespace MAUI_Test.Models
         public string Customer { get; set; } = string.Empty;
         public string From { get; set; } = string.Empty;
         public string Price { get; set; } = string.Empty;
-        public string Status { get; set; } = string.Empty; // Process, Open, On Hold
+        public string Status { get; set; } = string.Empty;
         public Color StatusColor { get; set; } = Colors.White;
         public Color StatusBg { get; set; } = Colors.Black;
     }

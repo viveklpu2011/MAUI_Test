@@ -1,57 +1,63 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MAUI_Test.Components.ListItemView"
-             x:Name="thisItem">
+<ContentView
+    x:Class="MAUI_Test.Components.ListItemView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="thisItem">
 
     <Grid ColumnDefinitions="80, 40, *" HeightRequest="60">
-        <!-- Left: Timestamp -->
-        <Label Grid.Column="0" 
-               Text="{Binding Time, Source={x:Reference thisItem}}" 
-               TextColor="{StaticResource TextSecondary}" 
-               FontSize="11" 
-               HorizontalTextAlignment="End" 
-               VerticalOptions="Center" 
-               Margin="0,0,10,0"/>
-        
-        <!-- Middle: Line & Circle -->
+        <Label
+            Grid.Column="0"
+            Margin="0,0,10,0"
+            FontSize="11"
+            HorizontalTextAlignment="End"
+            Text="{Binding Time, Source={x:Reference thisItem}}"
+            TextColor="{StaticResource TextSecondary}"
+            VerticalOptions="Center" />
+
         <Grid Grid.Column="1" VerticalOptions="Fill">
-            <!-- Connector Line -->
-            <BoxView WidthRequest="2" 
-                     Color="#E2E8F0" 
-                     HorizontalOptions="Center" 
-                     VerticalOptions="Fill" 
-                     IsVisible="{Binding ShowLine, Source={x:Reference thisItem}}"/>
-            
-            <!-- Circular Icon Badge -->
-            <Border WidthRequest="30" 
-                    HeightRequest="30" 
-                    StrokeThickness="0" 
-                    BackgroundColor="{Binding IconBgColor, Source={x:Reference thisItem}}" 
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center">
+            <BoxView
+                HorizontalOptions="Center"
+                IsVisible="{Binding ShowLine, Source={x:Reference thisItem}}"
+                VerticalOptions="Fill"
+                WidthRequest="2"
+                Color="#E2E8F0" />
+
+            <Border
+                BackgroundColor="{Binding IconBgColor, Source={x:Reference thisItem}}"
+                HeightRequest="30"
+                HorizontalOptions="Center"
+                StrokeThickness="0"
+                VerticalOptions="Center"
+                WidthRequest="30">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="15"/>
+                    <RoundRectangle CornerRadius="15" />
                 </Border.StrokeShape>
-                <Path Data="{Binding IconData, Source={x:Reference thisItem}}" 
-                      Fill="{Binding IconColor, Source={x:Reference thisItem}}" 
-                      HeightRequest="14" 
-                      WidthRequest="14" 
-                      Aspect="Uniform" 
-                      HorizontalOptions="Center" 
-                      VerticalOptions="Center"/>
+                <Path
+                    Aspect="Uniform"
+                    Data="{Binding IconData, Source={x:Reference thisItem}}"
+                    Fill="{Binding IconColor, Source={x:Reference thisItem}}"
+                    HeightRequest="14"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    WidthRequest="14" />
             </Border>
         </Grid>
 
-        <!-- Right: Text Content -->
-        <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Margin="10,0,0,0" Spacing="2">
-            <Label Text="{Binding ItemTitle, Source={x:Reference thisItem}}" 
-                   TextColor="{StaticResource TextPrimary}" 
-                   FontSize="13" 
-                   FontAttributes="Bold"/>
-            <Label Text="{Binding ItemDescription, Source={x:Reference thisItem}}" 
-                   TextColor="{StaticResource TextSecondary}" 
-                   FontSize="11"/>
+        <VerticalStackLayout
+            Grid.Column="2"
+            Margin="10,0,0,0"
+            Spacing="2"
+            VerticalOptions="Center">
+            <Label
+                FontAttributes="Bold"
+                FontSize="13"
+                Text="{Binding ItemTitle, Source={x:Reference thisItem}}"
+                TextColor="{StaticResource TextPrimary}" />
+            <Label
+                FontSize="11"
+                Text="{Binding ItemDescription, Source={x:Reference thisItem}}"
+                TextColor="{StaticResource TextSecondary}" />
         </VerticalStackLayout>
     </Grid>
 </ContentView>
